@@ -1,3 +1,4 @@
+import 'package:firstapp/Widgets/bottomnavigationbar.dart';
 import 'package:flutter/material.dart';
 import 'package:firstapp/Screens/DemoScreens/DemoNoise/demo_noise_reduction_mode1.dart';
 import 'package:firstapp/Screens/DemoScreens/DemoEqualizer/demo_sound_enhancer_mode1.dart';
@@ -26,19 +27,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pages[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          selectedItemColor: Color(0xFF9B35B6),
-          showSelectedLabels: true,
-          showUnselectedLabels: false,
-          currentIndex: _selectedIndex,
+      bottomNavigationBar: CustomBottomNavigationBar(
+          selectedIndex: _selectedIndex,
           onTap: _navigationBottomSelect,
-          items: [
-            BottomNavigationBarItem(icon: Icon(Icons.home),label: 'Home',),
-            BottomNavigationBarItem(icon: Icon(Icons.search),label: 'Search'),
-            BottomNavigationBarItem(icon: Icon(Icons.person),label: 'Setting'),
-            BottomNavigationBarItem(icon: Icon(Icons.info),label: 'more'),
-          ]),
+      ),
     );
   }
 }

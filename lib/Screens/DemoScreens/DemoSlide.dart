@@ -50,11 +50,14 @@ class _GettingStartedScreenState extends State<GettingStartedScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size; // ابعاد صفحه
+    final width = size.width;
+    final height = size.height;
     return Scaffold(
       body: Container(
         color: Color(0xFFF9ECF9),
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(width * 0.01),
           child: Column(
             children: <Widget>[
               DemoHeader(),
@@ -74,7 +77,7 @@ class _GettingStartedScreenState extends State<GettingStartedScreen> {
                       alignment: AlignmentDirectional.topStart,
                       children: <Widget>[
                         Container(
-                          margin: const EdgeInsets.only(bottom: 35),
+                          margin: EdgeInsets.only(bottom: height * 0.05),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -92,14 +95,12 @@ class _GettingStartedScreenState extends State<GettingStartedScreen> {
                   ],
                 ),
               ),
-              SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: height * 0.015,),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
               Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              padding:  EdgeInsets.symmetric(horizontal: width * 0.05, vertical: height * 0.02),
                   child: Slider(
                     value: _sliderValue,
                     activeColor: Color(0xFF9B35B6),
@@ -115,7 +116,7 @@ class _GettingStartedScreenState extends State<GettingStartedScreen> {
                   ),
                 ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                    padding:  EdgeInsets.symmetric(horizontal: width * 0.05, vertical: height * 0.02),
                     child: Slider(
                       value: _sliderValue2,
                       activeColor: Color(0xFF9B35B6),
@@ -130,34 +131,48 @@ class _GettingStartedScreenState extends State<GettingStartedScreen> {
                       },
                     ),
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
+                  SizedBox(height: height * 0.03,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: width * 0.03,
+                            vertical: height * 0.005,
+                          ),
+                        ),
                         child: Text(
                           'Noise Reduction',
-                          style: TextStyle(fontSize: 18),
-                        ),
+                          style: TextStyle(fontSize: width * 0.02,color: Color(0xFF9B35B6)),
 
+                        ),
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => DemoNoiseReductionMode1()),);
+                            MaterialPageRoute(
+                                builder: (context) => DemoNoiseReductionMode1()),
+                          );
                         },
-
                       ),
+                      SizedBox(width: width * 0.12),
                       ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: width * 0.03,
+                            vertical: height * 0.005,
+                          ),
+                        ),
                         child: Text(
                           'Sound Enhancer',
-                          style: TextStyle(fontSize: 18),
+                          style: TextStyle(fontSize: width * 0.02,color: Color(0xFF9B35B6)),
                         ),
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => DemoSoundEnhancerMode1()),);
+                            MaterialPageRoute(
+                                builder: (context) => DemoSoundEnhancerMode1()),
+                          );
                         },
                       ),
                     ],
@@ -168,7 +183,6 @@ class _GettingStartedScreenState extends State<GettingStartedScreen> {
           ),
         ),
       ),
-
     );
   }
 }

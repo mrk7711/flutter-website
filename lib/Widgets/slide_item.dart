@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../Modes/slide.dart';
 
 class SlideItem extends StatelessWidget {
@@ -8,35 +7,42 @@ class SlideItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final width = size.width;
+    final height = size.height;
+
+    // محدود کردن حداکثر اندازه
+    final double imageSize = (width * 0.6).clamp(180, 350); // بین 180 تا 350
+    final double fontSize = (width * 0.05).clamp(14, 24);
+    final double spacing1 = (height * 0.025).clamp(8, 30);
+    final double spacing2 = (height * 0.012).clamp(5, 15);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Container(
-          width: 300,
-          height: 300,
+          width: imageSize,
+          height: imageSize,
           decoration: BoxDecoration(
             shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(imageSize * 0.05),
             image: DecorationImage(
               image: AssetImage(slideList[index].imageUrl),
               fit: BoxFit.cover,
             ),
           ),
         ),
-        SizedBox(
-          height: 40,
-        ),
+        SizedBox(height: spacing1),
         Text(
           slideList[index].title,
           style: TextStyle(
-            fontSize: 26,
-            color: Color(0xFF9B35B6),
+            fontSize: fontSize,
+            color: const Color(0xFF9B35B6),
           ),
+          textAlign: TextAlign.center,
         ),
-        SizedBox(
-          height: 10,
-        ),
+        SizedBox(height: spacing2),
       ],
     );
   }

@@ -14,20 +14,28 @@ class DemoHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final width = size.width;
+    final height = size.height;
+
     return Container(
-      width: double.infinity, // کل عرض صفحه
-      color: backgroundColor,  // رنگ بک‌گراند
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+      width: double.infinity,
+      color: backgroundColor,
+      padding: EdgeInsets.symmetric(
+        vertical: height * 0.01, // حدود ۲٪ از ارتفاع
+        horizontal: width * 0.01, // حدود ۵٪ از عرض
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
             text,
             style: TextStyle(
-              fontSize: 20,
+              fontSize: width * 0.02, // فونت متناسب با عرض
               fontWeight: FontWeight.bold,
               color: textColor,
             ),
+            textAlign: TextAlign.center,
           ),
         ],
       ),

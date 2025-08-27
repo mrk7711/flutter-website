@@ -11,17 +11,17 @@ class _DemoStartedScreenState extends State<DemoSoundEnhancerMode1> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final width = size.width;
+    final height = size.height;
+    final double paddingAll = (width * 0.001).clamp(8, 16);
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(20),
+        padding:  EdgeInsets.all(paddingAll),
         child: Column(
           children: [
-            // متن بالای صفحه
+
             DemoHeader(),
-
-
-
-            // متن زیرش
             Text(
               "Sound Enhancer Settings",
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),

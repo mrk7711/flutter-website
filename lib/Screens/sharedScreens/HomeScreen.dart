@@ -1,3 +1,6 @@
+import 'package:firstapp/Screens/sharedScreens/HearingAidStatusScreen.dart';
+import 'package:firstapp/Screens/sharedScreens/More.dart';
+import 'package:firstapp/Screens/sharedScreens/MyHearingAidScreen.dart';
 import 'package:firstapp/Widgets/bottomnavigationbar.dart';
 import 'package:flutter/material.dart';
 import 'package:firstapp/Screens/DemoScreens/DemoNoise/demo_noise_reduction_mode1.dart';
@@ -19,9 +22,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
   final List _pages = [
     GettingStartedScreen(),
-    DemoSoundEnhancerMode1(),
-    DemoNoiseReductionMode1(),
-    DemoNoiseReductionMode1(),
+    HearingAidStatusScreen(),
+    MyHearingAidScreen(),
+    MorePage(),
   ];
   @override
   Widget build(BuildContext context) {

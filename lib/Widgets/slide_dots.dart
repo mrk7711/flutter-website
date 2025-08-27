@@ -9,9 +9,9 @@ class SlideDots extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
 
     // اندازه دایره‌ها متناسب با عرض صفحه
-    final double activeSize = width * 0.009;  // حدود 3% از عرض صفحه
-    final double inactiveSize = width * 0.009; // حدود 2% از عرض صفحه
-    final double margin = width * 0.003; // فاصله بین دایره‌ها
+    final double activeSize = (width * 0.02).clamp(8, 12);
+    final double inactiveSize = (width * 0.015).clamp(6, 10);
+    final double margin = (width * 0.004).clamp(2, 8);
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 150),

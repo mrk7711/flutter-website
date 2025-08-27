@@ -6,6 +6,7 @@ import '../../Widgets/slide_item.dart';
 import '../../Modes/slide.dart';
 import '../../Widgets/slide_dots.dart';
 import 'package:firstapp/Widgets/page_header.dart';
+import 'package:firstapp/Widgets/horizentalseekbar.dart';
 
 class GettingStartedScreen extends StatefulWidget {
   @override
@@ -13,33 +14,17 @@ class GettingStartedScreen extends StatefulWidget {
 }
 
 class _GettingStartedScreenState extends State<GettingStartedScreen> {
-
   int _currentPage = 0;
   final PageController _pageController = PageController(initialPage: 0);
-  double _sliderValue = 0.0;
+
+  double _sliderValue1 = 0.0;
   double _sliderValue2 = 0.0;
-  @override
-  void initState() {
-    super.initState();
-    // Timer.periodic(Duration(seconds: 5), (Timer timer) {
-    //   if (_currentPage < slideList.length - 1) {
-    //     _currentPage++;
-    //   } else {
-    //     _currentPage = 0;
-    //   }
-    //
-    //   _pageController.animateToPage(
-    //     _currentPage,
-    //     duration: Duration(milliseconds: 300),
-    //     curve: Curves.easeIn,
-    //   );
-    // });
-  }
+  bool showSecondSeekbar = false;
 
   @override
   void dispose() {
-    super.dispose();
     _pageController.dispose();
+    super.dispose();
   }
 
   _onPageChanged(int index) {
@@ -50,14 +35,24 @@ class _GettingStartedScreenState extends State<GettingStartedScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size; // ابعاد صفحه
+    final size = MediaQuery.of(context).size;
     final width = size.width;
     final height = size.height;
+
+    // واکنش‌گرایی ابعاد
+    final double paddingAll = (width * 0.01).clamp(8, 16);
+    final double sliderPaddingVertical = (height * 0.02).clamp(16, 25);
+    final double buttonFontSize = (width * 0.035).clamp(12, 18);
+    final double buttonPaddingHorizontal = (width * 0.03).clamp(12, 20);
+    final double buttonPaddingVertical = (height * 0.012).clamp(6, 14);
+    final double rowSpacing = (width * 0.1).clamp(16, 40);
+    final double iconSize = (width * 0.04).clamp(12, 20);
+
     return Scaffold(
       body: Container(
         color: Color(0xFFF9ECF9),
         child: Padding(
-          padding: EdgeInsets.all(width * 0.01),
+          padding: EdgeInsets.all(paddingAll),
           child: Column(
             children: <Widget>[
               DemoHeader(),
@@ -71,114 +66,165 @@ class _GettingStartedScreenState extends State<GettingStartedScreen> {
                       onPageChanged: _onPageChanged,
                       itemCount: slideList.length,
                       itemBuilder: (ctx, i) => SlideItem(i),
-
                     ),
-                    Stack(
-                      alignment: AlignmentDirectional.topStart,
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(bottom: height * 0.05),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              for(int i = 0; i<slideList.length; i++)
-                                if( i == _currentPage )
-                                  SlideDots(true)
-                                else
-                                  SlideDots(false)
-                            ],
-                          ),
-                        )
-                      ],
-                    )
+                    Positioned(
+                      bottom: sliderPaddingVertical,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: List.generate(slideList.length, (i) {
+                          return SlideDots(i == _currentPage);
+                        }),
+                      ),
+                    ),
                   ],
                 ),
               ),
-              SizedBox(height: height * 0.015,),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-              Padding(
-              padding:  EdgeInsets.symmetric(horizontal: width * 0.05, vertical: height * 0.02),
-                  child: Slider(
-                    value: _sliderValue,
-                    activeColor: Color(0xFF9B35B6),
-                    min: 0,
-                    max: 10,
-                    divisions: 10,
-                    label: _sliderValue.round().toString(),
-                    onChanged: (value) {
-                      setState(() {
-                        _sliderValue = value;
-                      });
-                    },
-                  ),
+              SizedBox(height: sliderPaddingVertical),
+              // کارت SeekBarها و دکمه‌ها
+              Card(
+                color: Color(0xFFF2E9F0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
                 ),
-                  Padding(
-                    padding:  EdgeInsets.symmetric(horizontal: width * 0.05, vertical: height * 0.02),
-                    child: Slider(
-                      value: _sliderValue2,
-                      activeColor: Color(0xFF9B35B6),
-                      min: 0,
-                      max: 10,
-                      divisions: 10,
-                      label: _sliderValue2.round().toString(),
-                      onChanged: (value) {
-                        setState(() {
-                          _sliderValue2 = value;
-                        });
-                      },
-                    ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: height * 0.02,
+                    horizontal: width * 0.05,
                   ),
-                  SizedBox(height: height * 0.03,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: width * 0.03,
-                            vertical: height * 0.005,
+                  child: Column(
+                    children: [
+                      // Row شامل SeekBar اصلی و دکمه + و آیکون R (در صورت فعال شدن)
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          // آیکون R فقط وقتی دومین SeekBar ظاهر شده
+                          if (showSecondSeekbar)
+                            Padding(
+                              padding: EdgeInsets.only(right: width * 0.02),
+                              child: Icon(
+                                Icons.arrow_right, // میتونی هر آیکون دلخواه بگذاری
+                                color: Colors.green,
+                                size: (width * 0.04).clamp(12, 20),
+                              ),
+                            ),
+                          Expanded(
+                            child: Horizentalseekbar(
+                              value: _sliderValue1,
+                              activeColor: Color(0xFF9B35B6),
+                              min: 0,
+                              max: 10,
+                              divisions: 10,
+                              onChanged: (value) {
+                                setState(() => _sliderValue1 = value);
+                              },
+                            ),
                           ),
-                        ),
-                        child: Text(
-                          'Noise Reduction',
-                          style: TextStyle(fontSize: width * 0.02,color: Color(0xFF9B35B6)),
-
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => DemoNoiseReductionMode1()),
-                          );
-                        },
+                          SizedBox(width: width * 0.02),
+                          IconButton(
+                            icon: Icon(
+                              showSecondSeekbar ? Icons.remove : Icons.add,
+                              color: Color(0xFF9B35B6),
+                              size: (width * 0.05).clamp(16, 24),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                showSecondSeekbar = !showSecondSeekbar;
+                              });
+                            },
+                          ),
+                        ],
                       ),
-                      SizedBox(width: width * 0.12),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: width * 0.03,
-                            vertical: height * 0.005,
+
+                      SizedBox(height: height * 0.001),
+
+                      // SeekBar دوم و آیکون L کنار آن
+                      AnimatedSize(
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                        child: showSecondSeekbar
+                            ? Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.arrow_left, // L icon
+                              color: Colors.blue,
+                              size: (width * 0.05).clamp(12, 20),
+                            ),
+                            SizedBox(width: width * 0.02),
+                            Expanded(
+                              child: Horizentalseekbar(
+                                value: _sliderValue2,
+                                activeColor: Color(0xFF9B35B6),
+                                min: 0,
+                                max: 10,
+                                divisions: 10,
+                                onChanged: (value) {
+                                  setState(() => _sliderValue2 = value);
+                                },
+                              ),
+                            ),
+                          ],
+                        )
+                            : SizedBox.shrink(),
+                      ),
+
+                      SizedBox(height: height * 0.02),
+
+                      // دو دکمه پایین کارت
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color(0xFF9B35B6),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: buttonPaddingHorizontal,
+                                vertical: buttonPaddingVertical,
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DemoNoiseReductionMode1(),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              'Noise Reduction',
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: buttonFontSize),
+                            ),
                           ),
-                        ),
-                        child: Text(
-                          'Sound Enhancer',
-                          style: TextStyle(fontSize: width * 0.02,color: Color(0xFF9B35B6)),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => DemoSoundEnhancerMode1()),
-                          );
-                        },
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color(0xFF9B35B6),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: buttonPaddingHorizontal,
+                                vertical: buttonPaddingVertical,
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DemoSoundEnhancerMode1(),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              'Sound Enhancer',
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: buttonFontSize),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
-              )
+                ),
+              ),
+
             ],
           ),
         ),

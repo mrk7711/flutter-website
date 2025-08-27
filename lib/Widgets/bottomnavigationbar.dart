@@ -32,12 +32,12 @@ class CustomBottomNavigationBar extends StatelessWidget {
           label: 'Home',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.search, size: iconSize),
-          label: 'Search',
+          icon: Icon(Icons.hearing, size: iconSize),
+          label: 'Status',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person, size: iconSize),
-          label: 'Setting',
+          label: 'My Earanica',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.info, size: iconSize),

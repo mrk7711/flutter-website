@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firstapp/widgets/reset_button.dart';
 import 'package:firstapp/Widgets/page_header.dart';
 import 'package:firstapp/Widgets/verticalseekbar.dart';
+import 'package:firstapp/Utils/globals.dart' as globals;
 
 class DemoNoiseReductionMode1 extends StatefulWidget {
   @override
@@ -66,6 +67,7 @@ class _DemoStartedScreenState extends State<DemoNoiseReductionMode1> {
                       onChanged: (value) {
                         setState(() {
                           _sliderValue = value.round();
+                          globals.noiseLevel = _sliderValue;
                         });
                       },
                     ),

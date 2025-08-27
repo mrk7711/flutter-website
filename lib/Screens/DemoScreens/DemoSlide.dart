@@ -7,6 +7,7 @@ import '../../Modes/slide.dart';
 import '../../Widgets/slide_dots.dart';
 import 'package:firstapp/Widgets/page_header.dart';
 import 'package:firstapp/Widgets/horizentalseekbar.dart';
+import 'package:firstapp/Utils/globals.dart' as globals;
 
 class GettingStartedScreen extends StatefulWidget {
   @override
@@ -17,8 +18,8 @@ class _GettingStartedScreenState extends State<GettingStartedScreen> {
   int _currentPage = 0;
   final PageController _pageController = PageController(initialPage: 0);
 
-  double _sliderValue1 = 0.0;
-  double _sliderValue2 = 0.0;
+  int  _sliderValue1 = 0;
+  int _sliderValue2 = 0;
   bool showSecondSeekbar = false;
 
   @override
@@ -109,13 +110,14 @@ class _GettingStartedScreenState extends State<GettingStartedScreen> {
                             ),
                           Expanded(
                             child: Horizentalseekbar(
-                              value: _sliderValue1,
+                              value: _sliderValue1.toDouble(),
                               activeColor: Color(0xFF9B35B6),
                               min: 0,
                               max: 10,
                               divisions: 10,
                               onChanged: (value) {
-                                setState(() => _sliderValue1 = value);
+                                setState(() => _sliderValue1 = value.toInt());
+                                globals.volumeLevel = _sliderValue1;
                               },
                             ),
                           ),
@@ -153,13 +155,13 @@ class _GettingStartedScreenState extends State<GettingStartedScreen> {
                             SizedBox(width: width * 0.02),
                             Expanded(
                               child: Horizentalseekbar(
-                                value: _sliderValue2,
+                                value: _sliderValue2.toDouble(),
                                 activeColor: Color(0xFF9B35B6),
                                 min: 0,
                                 max: 10,
                                 divisions: 10,
                                 onChanged: (value) {
-                                  setState(() => _sliderValue2 = value);
+                                  setState(() => _sliderValue2 = value.toInt());
                                 },
                               ),
                             ),

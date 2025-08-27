@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firstapp/Utils/globals.dart' as globals;
+
 
 class HearingAidStatusScreen extends StatelessWidget {
   @override
@@ -19,13 +21,13 @@ class HearingAidStatusScreen extends StatelessWidget {
         child: Column(
           children: [
             // Battery Card
-            StatusCard(
-              icon: Icons.battery_full,
-              title: "Battery",
-              value: "85%",
-              color: Colors.green,
-              progress: 0.55,
-            ),
+            // StatusCard(
+            //   icon: Icons.battery_full,
+            //   title: "Battery",
+            //   value: "85%",
+            //   color: Colors.green,
+            //   progress: 0.55,
+            // ),
             StatusCard(
               icon: Icons.bluetooth,
               title: "Connection",
@@ -35,7 +37,7 @@ class HearingAidStatusScreen extends StatelessWidget {
             StatusCard(
               icon: Icons.hearing,
               title: "Mode",
-              value: "Noise Reduction",
+              value: "P1",
               color: Colors.purple,
             ),
             StatusCard(
@@ -43,14 +45,14 @@ class HearingAidStatusScreen extends StatelessWidget {
               title: "Volume",
               value: "5",
               color: Colors.blue,
-              progress: 0.8,
+              progress: 0.1 * globals.volumeLevel,
             ),
             StatusCard(
               icon: Icons.noise_aware,
               title: "Noise Level",
               value: "1",
               color: Color(0xFFF06292),
-              progress: 0.2,
+              progress: 0.2 * globals.noiseLevel,
             ),
             StatusCard(
               icon: Icons.update,
